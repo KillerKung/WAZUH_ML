@@ -1,0 +1,7 @@
+{
+  "intranet_server": 9,
+  "web_server": 9,
+  "database_server": 10,
+  "mail_server": 7,
+  "workstation-01": 4
+}

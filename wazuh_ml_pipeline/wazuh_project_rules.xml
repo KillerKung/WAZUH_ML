@@ -1,0 +1,54 @@
+<group name="wazuh_project_synthetic,">
+  <rule id="100100" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="source">^wazuh_project_synthetic_generator$</field>
+    <description>Wazuh project synthetic lab event</description>
+    <group>synthetic_lab,</group>
+  </rule>
+
+  <rule id="100101" level="3">
+    <if_sid>100100</if_sid>
+    <field name="event.category" type="pcre2">^(update|package|cron|backup|service)$</field>
+    <description>Synthetic baseline activity: $(event.action)</description>
+    <group>known_baseline,noise_candidate,</group>
+  </rule>
+
+  <rule id="100102" level="5">
+    <if_sid>100100</if_sid>
+    <field name="event.action" type="pcre2">^(network_scan|wordpress_scan)$</field>
+    <description>Synthetic discovery activity: $(event.action)</description>
+    <mitre><id>T1046</id></mitre>
+    <group>discovery,scan,suspicious,</group>
+  </rule>
+
+  <rule id="100103" level="5">
+    <if_sid>100100</if_sid>
+    <field name="event.action">^ssh_login_failed$</field>
+    <description>Synthetic SSH authentication failure</description>
+    <mitre><id>T1110</id></mitre>
+    <group>authentication_failed,brute_force,suspicious,</group>
+  </rule>
+
+  <rule id="100104" level="5">
+    <if_sid>100100</if_sid>
+    <field name="event.action">^ssh_login_success$</field>
+    <description>Synthetic SSH successful login</description>
+    <group>authentication_success,</group>
+  </rule>
+
+  <rule id="100105" level="8">
+    <if_sid>100100</if_sid>
+    <field name="event.action" type="pcre2">^(suspicious_php_created|web_process_spawned_shell)$</field>
+    <description>Synthetic post-exploitation behavior: $(event.action)</description>
+    <mitre><id>T1505.003</id></mitre>
+    <group>web_shell,execution,dangerous,</group>
+  </rule>
+
+  <rule id="100106" level="12">
+    <if_sid>100100</if_sid>
+    <field name="event.action">^sudo_group_change$</field>
+    <description>Synthetic privilege group change</description>
+    <mitre><id>T1548</id></mitre>
+    <group>privilege_escalation,critical,</group>
+  </rule>
+</group>
