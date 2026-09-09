@@ -1,0 +1,10 @@
+{
+  "input_alerts": 3190,
+  "decision_counts": {
+    "aggregate": 1694,
+    "ml_candidate": 1326,
+    "critical": 164,
+    "known_noise": 6
+  },
+  "rule_reduction_rate": 0.5843260188087774
+}
